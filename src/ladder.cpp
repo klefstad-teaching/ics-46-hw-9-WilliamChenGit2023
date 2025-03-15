@@ -6,14 +6,22 @@
 #include <vector>
 #include <string>
 #include <cmath>
+#include <algorithm>
 #include "ladder.h"
 using namespace std;
 
 void error(string word1, string word2, string msg){
 	cout << msg << endl;
 }
+
+int ed(const string& s1, const string& s2, int n1, int n2) {
+    if (n1 == 0) return n2;
+    if (n2 == 0) return n1;
+    if (s1[n1 - 1] == s2[n2 - 1]) return ed(s1, s2, n1 - 1, n2 - 1);
+    return 1 + min({ed(s1, s2, n1, n2 - 1), ed(s1, s2, n1 - 1, n2), ed(s1, s2, n1 - 1, n2 - 1)}); 
+}
 bool edit_distance_within(const std::string& str1, const std::string& str2, int d){
-	return true;
+	return ed(str1,str2,str1.size(),str2.size()) <= d;
 }
 bool is_adjacent(const string& word1, const string& word2){
 	if(word1 == word2) return true;
